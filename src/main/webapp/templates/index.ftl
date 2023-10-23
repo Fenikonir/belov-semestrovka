@@ -42,7 +42,7 @@
                 </a>
             </div>
             <div class="u-nav-container">
-                <ul class="u-nav u-spacing-20 u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="Главная.html" style="padding: 10px;">Главная</a>
+                <ul class="u-nav u-spacing-20 u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="${host}" style="padding: 10px;">Главная</a>
                     </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="О-нас.html" style="padding: 10px;">Авторизация</a>
                     </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="Контакты.html" style="padding: 10px;">Контакты</a>
                     </li></ul>
@@ -51,8 +51,8 @@
                 <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
                     <div class="u-inner-container-layout u-sidenav-overflow">
                         <div class="u-menu-close"></div>
-                        <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Главная.html">Главная</a>
-                            </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="О-нас.html">Авторизация</a>
+                        <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="${host}">Главная</a>
+                            </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="${host}${auth_link}">Авторизация</a>
                             </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Контакты.html">Контакты</a>
                             </li></ul>
                     </div>

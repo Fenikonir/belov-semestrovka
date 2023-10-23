@@ -29,7 +29,29 @@ public class TrolleyDAOImpl implements DAO<Trolley> {
                 City city = new City();
                 city.setId(resultSet.getInt("city_id"));
                 trolley.setCity(city);
-                trolley.setLastModified(resultSet.getTimestamp("last_modified"));
+                trolley.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return trolley;
+    }
+
+    @Override
+    public Trolley getByParameter(String p, String v) {
+        Trolley trolley = null;
+        String query = String.format("SELECT * FROM Trolleys WHERE %s = ?", p);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, v);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                trolley = new Trolley();
+                trolley.setId(resultSet.getInt("id"));
+                trolley.setTrolleyNumber(resultSet.getString("trolley_number"));
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                trolley.setCity(city);
+                trolley.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,7 +72,7 @@ public class TrolleyDAOImpl implements DAO<Trolley> {
                 City city = new City();
                 city.setId(resultSet.getInt("city_id"));
                 trolley.setCity(city);
-                trolley.setLastModified(resultSet.getTimestamp("last_modified"));
+                trolley.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
                 trolleyList.add(trolley);
             }
         } catch (SQLException e) {

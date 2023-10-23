@@ -11,17 +11,19 @@ public class DAOFabric {
     public static final String url = "jdbc:postgresql://localhost:8848/semestrovka";
     public static final String username = "postgres";
     public static final String password = "postgres";
-    private static final Connection connection;
+    public static Connection connection = null;
 
     static {
         try {
+            Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    ;
     public static DAO userDAO = null;
     public static DAO planeDAO = null;
     public static DAO busDAO = null;
@@ -69,5 +71,16 @@ public class DAOFabric {
             trolleyDAO = new TrolleyDAOImpl(connection);
         }
         return trolleyDAO;
+    }
+
+    public static void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Обработка исключения
+            }
+        }
     }
 }

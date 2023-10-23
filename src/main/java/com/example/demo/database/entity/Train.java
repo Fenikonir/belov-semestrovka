@@ -1,14 +1,14 @@
 package com.example.demo.database.entity;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Train {
     private int id;
     private String trainNumber;
     private City city;
-    private Timestamp lastModified;
+    private LocalDateTime lastModified;
 
-    public Train(int id, String trainNumber, City city, Timestamp lastModified) {
+    public Train(int id, String trainNumber, City city, LocalDateTime lastModified) {
         this.id = id;
         this.trainNumber = trainNumber;
         this.city = city;
@@ -42,11 +42,11 @@ public class Train {
         this.city = city;
     }
 
-    public Timestamp getLastModified() {
+    public LocalDateTime getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Timestamp lastModified) {
+    public void setLastModified(LocalDateTime lastModified) {
         this.lastModified = lastModified;
     }
 

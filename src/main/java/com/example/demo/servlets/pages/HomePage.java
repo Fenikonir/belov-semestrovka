@@ -1,7 +1,6 @@
-package com.example.demo.servlets;
+package com.example.demo.servlets.pages;
 
 import com.example.demo.singleton.FreemarkerConfigSingleton;
-import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,10 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +23,8 @@ public class HomePage extends HttpServlet {
         try {
             Template template = FreemarkerConfigSingleton.getCfg().getTemplate("index.ftl");
             Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("host", "http://localhost:8080/");
+            dataModel.put("auth_link", "auth");
             template.process(dataModel, response.getWriter());
         } catch (TemplateException e) {
             e.printStackTrace();

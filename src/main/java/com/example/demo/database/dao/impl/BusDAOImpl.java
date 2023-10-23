@@ -8,7 +8,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.demo.database.dao.DAOFabric.*;
+
 public class BusDAOImpl implements DAO<Bus> {
+
     private Connection connection;
 
     public BusDAOImpl(Connection connection) {
@@ -29,7 +32,29 @@ public class BusDAOImpl implements DAO<Bus> {
                 City city = new City();
                 city.setId(resultSet.getInt("city_id"));
                 bus.setCity(city);
-                bus.setLastModified(resultSet.getTimestamp("last_modified"));
+                bus.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bus;
+    }
+
+    @Override
+    public Bus getByParameter(String p, String v) {
+        Bus bus = null;
+        String query = String.format("SELECT * FROM Buses WHERE %s = ?", p);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, v);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                bus = new Bus();
+                bus.setId(resultSet.getInt("id"));
+                bus.setBusNumber(resultSet.getString("bus_number"));
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                bus.setCity(city);
+                bus.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,7 +75,7 @@ public class BusDAOImpl implements DAO<Bus> {
                 City city = new City();
                 city.setId(resultSet.getInt("city_id"));
                 bus.setCity(city);
-                bus.setLastModified(resultSet.getTimestamp("last_modified"));
+                bus.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
                 busList.add(bus);
             }
         } catch (SQLException e) {

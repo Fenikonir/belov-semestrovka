@@ -29,7 +29,29 @@ public class PlaneDAOImpl implements DAO<Plane> {
                 City city = new City();
                 city.setId(resultSet.getInt("city_id"));
                 plane.setCity(city);
-                plane.setLastModified(resultSet.getTimestamp("last_modified"));
+                plane.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return plane;
+    }
+
+    @Override
+    public Plane getByParameter(String p, String v) {
+        Plane plane = null;
+        String query = String.format("SELECT * FROM Planes WHERE %s = ?", p);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, v);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                plane = new Plane();
+                plane.setId(resultSet.getInt("id"));
+                plane.setPlaneNumber(resultSet.getString("plane_number"));
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                plane.setCity(city);
+                plane.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,7 +72,7 @@ public class PlaneDAOImpl implements DAO<Plane> {
                 City city = new City();
                 city.setId(resultSet.getInt("city_id"));
                 plane.setCity(city);
-                plane.setLastModified(resultSet.getTimestamp("last_modified"));
+                plane.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
                 planeList.add(plane);
             }
         } catch (SQLException e) {

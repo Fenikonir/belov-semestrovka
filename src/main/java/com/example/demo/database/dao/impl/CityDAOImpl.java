@@ -2,6 +2,7 @@ package com.example.demo.database.dao.impl;
 
 import com.example.demo.database.dao.DAO;
 import com.example.demo.database.entity.City;
+import com.example.demo.database.entity.Plane;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,7 +30,30 @@ public class CityDAOImpl implements DAO<City> {
                 city.setPlaneCount(resultSet.getInt("plane_count"));
                 city.setTrolleyCount(resultSet.getInt("trolley_count"));
                 city.setTrainCount(resultSet.getInt("train_count"));
-                city.setLastModified(resultSet.getTimestamp("last_modified"));
+                city.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return city;
+    }
+
+    @Override
+    public City getByParameter(String p, String v) {
+        City city = null;
+        String query = String.format("SELECT * FROM Cities WHERE %s = ?", p);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, v);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                city = new City();
+                city.setId(resultSet.getInt("id"));
+                city.setCityName(resultSet.getString("city_name"));
+                city.setBusCount(resultSet.getInt("bus_count"));
+                city.setPlaneCount(resultSet.getInt("plane_count"));
+                city.setTrolleyCount(resultSet.getInt("trolley_count"));
+                city.setTrainCount(resultSet.getInt("train_count"));
+                city.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +75,7 @@ public class CityDAOImpl implements DAO<City> {
                 city.setPlaneCount(resultSet.getInt("plane_count"));
                 city.setTrolleyCount(resultSet.getInt("trolley_count"));
                 city.setTrainCount(resultSet.getInt("train_count"));
-                city.setLastModified(resultSet.getTimestamp("last_modified"));
+                city.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
                 cityList.add(city);
             }
         } catch (SQLException e) {

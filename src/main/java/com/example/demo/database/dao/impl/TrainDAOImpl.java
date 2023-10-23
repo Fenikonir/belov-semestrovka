@@ -29,7 +29,29 @@ public class TrainDAOImpl implements DAO<Train> {
                 City city = new City();
                 city.setId(resultSet.getInt("city_id"));
                 train.setCity(city);
-                train.setLastModified(resultSet.getTimestamp("last_modified"));
+                train.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return train;
+    }
+
+    @Override
+    public Train getByParameter(String p, String v) {
+        Train train = null;
+        String query = String.format("SELECT * FROM Trains WHERE %s = ?", p);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, v);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                train = new Train();
+                train.setId(resultSet.getInt("id"));
+                train.setTrainNumber(resultSet.getString("train_number"));
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                train.setCity(city);
+                train.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,7 +72,7 @@ public class TrainDAOImpl implements DAO<Train> {
                 City city = new City();
                 city.setId(resultSet.getInt("city_id"));
                 train.setCity(city);
-                train.setLastModified(resultSet.getTimestamp("last_modified"));
+                train.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
                 trainList.add(train);
             }
         } catch (SQLException e) {

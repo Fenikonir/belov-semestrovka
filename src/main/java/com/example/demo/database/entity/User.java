@@ -1,18 +1,20 @@
 package com.example.demo.database.entity;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class User {
     private int id;
     private String username;
     private String password;
-    private Timestamp creationDate;
-    private Timestamp lastModified;
+    private City city;
+    private LocalDateTime creationDate;
+    private LocalDateTime lastModified;
 
-    public User(int id, String username, String password, Timestamp creationDate, Timestamp lastModified) {
+    public User(int id, String username, String password, City city, LocalDateTime creationDate, LocalDateTime lastModified) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.city = city;
         this.creationDate = creationDate;
         this.lastModified = lastModified;
     }
@@ -44,21 +46,28 @@ public class User {
         this.password = password;
     }
 
-    public Timestamp getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Timestamp creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Timestamp getLastModified() {
+    public LocalDateTime getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Timestamp lastModified) {
+    public void setLastModified(LocalDateTime lastModified) {
         this.lastModified = lastModified;
     }
 
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
     // Getters and Setters
 }

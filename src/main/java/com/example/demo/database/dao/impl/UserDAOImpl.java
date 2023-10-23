@@ -1,6 +1,7 @@
 package com.example.demo.database.dao.impl;
 
 import com.example.demo.database.dao.DAO;
+import com.example.demo.database.entity.City;
 import com.example.demo.database.entity.User;
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,8 +26,35 @@ public class UserDAOImpl implements DAO<User> {
                 user.setId(resultSet.getInt("id"));
                 user.setUsername(resultSet.getString("username"));
                 user.setPassword(resultSet.getString("password"));
-                user.setCreationDate(resultSet.getTimestamp("creation_date"));
-                user.setLastModified(resultSet.getTimestamp("last_modified"));
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                user.setCity(city);
+                user.setCreationDate(resultSet.getTimestamp("creation_date").toLocalDateTime());
+                user.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Override
+    public User getByParameter(String param, String value) {
+        User user = null;
+        String query = String.format("SELECT * FROM users WHERE %s = ?", param);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, value);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                user.setPassword(resultSet.getString("password"));
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                user.setCity(city);
+                user.setCreationDate(resultSet.getTimestamp("creation_date").toLocalDateTime());
+                user.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,8 +73,11 @@ public class UserDAOImpl implements DAO<User> {
                 user.setId(resultSet.getInt("id"));
                 user.setUsername(resultSet.getString("username"));
                 user.setPassword(resultSet.getString("password"));
-                user.setCreationDate(resultSet.getTimestamp("creation_date"));
-                user.setLastModified(resultSet.getTimestamp("last_modified"));
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                user.setCity(city);
+                user.setCreationDate(resultSet.getTimestamp("creation_date").toLocalDateTime());
+                user.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
                 userList.add(user);
             }
         } catch (SQLException e) {
@@ -57,10 +88,11 @@ public class UserDAOImpl implements DAO<User> {
 
     @Override
     public void save(User entity) {
-        String query = "INSERT INTO users (username, password) VALUES (?, ?)";
+        String query = "INSERT INTO users (username, password, city_id) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, entity.getUsername());
             statement.setString(2, entity.getPassword());
+            statement.setInt(3, entity.getCity().getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,12 +101,13 @@ public class UserDAOImpl implements DAO<User> {
 
     @Override
     public void update(User entity) {
-        String query = "UPDATE users SET username = ?, password = ?, last_modified = ? WHERE id = ?";
+        String query = "UPDATE users SET username = ?, password = ?, last_modified = ?, city_id = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, entity.getUsername());
             statement.setString(2, entity.getPassword());
             statement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-            statement.setInt(4, entity.getId());
+            statement.setInt(4, entity.getCity().getId());
+            statement.setInt(5, entity.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
