@@ -43,8 +43,8 @@
             </div>
             <div class="u-nav-container">
                 <ul class="u-nav u-spacing-20 u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="${host}" style="padding: 10px;">Главная</a>
-                    </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="О-нас.html" style="padding: 10px;">Авторизация</a>
-                    </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="Контакты.html" style="padding: 10px;">Контакты</a>
+                    </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="${host}${auth_link}" style="padding: 10px;">Авторизация</a>
+                    </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="${host}${contact_link}" style="padding: 10px;">Контакты</a>
                     </li></ul>
             </div>
             <div class="u-nav-container-collapse">
@@ -53,7 +53,7 @@
                         <div class="u-menu-close"></div>
                         <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="${host}">Главная</a>
                             </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="${host}${auth_link}">Авторизация</a>
-                            </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Контакты.html">Контакты</a>
+                            </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="${host}${contact_link}">Контакты</a>
                             </li></ul>
                     </div>
                 </div>
@@ -343,22 +343,4 @@
         </p>
     </div>
 </section>
-
-
-
-<footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-3a3f"><div class="u-clearfix u-sheet u-sheet-1">
-        <p class="u-small-text u-text u-text-variant u-text-1">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-    </div></footer>
-<section class="u-backlink u-clearfix u-grey-80">
-    <a class="u-link" href="https://nicepage.com/website-design" target="_blank">
-        <span>Website Design</span>
-    </a>
-    <p class="u-text">
-        <span>created with</span>
-    </p>
-    <a class="u-link" href="" target="_blank">
-        <span>Offline Website Builder Software</span>
-    </a>.
-</section>
-
 </body></html>

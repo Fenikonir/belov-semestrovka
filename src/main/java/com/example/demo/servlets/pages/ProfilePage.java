@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet("")
-public class HomePage extends HttpServlet {
+@WebServlet(Names.profile)
+public class ProfilePage extends HttpServlet {
     public void init() {
         FreemarkerConfigSingleton.setServletContext(this.getServletContext());
     }
@@ -22,7 +22,7 @@ public class HomePage extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         try {
-            Template template = FreemarkerConfigSingleton.getCfg().getTemplate("index.ftl");
+            Template template = FreemarkerConfigSingleton.getCfg().getTemplate("profile.ftl");
             Map<String, Object> dataModel = new HashMap<>();
             dataModel.put("host", Names.host);
             dataModel.put("auth_link", Names.auth);

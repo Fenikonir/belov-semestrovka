@@ -5,6 +5,7 @@ import com.example.demo.database.dao.DAOFabric;
 import com.example.demo.database.entity.City;
 import com.example.demo.database.entity.User;
 import com.example.demo.database.repository.PgRepository;
+import com.example.demo.servlets.Names;
 import com.example.demo.singleton.FreemarkerConfigSingleton;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -12,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -23,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@WebServlet("/auth")
+@WebServlet(Names.auth)
 public class AuthPage extends HttpServlet {
     public void init() {
         FreemarkerConfigSingleton.setServletContext(this.getServletContext());
@@ -46,6 +48,12 @@ public class AuthPage extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Connection connection = null;
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+        if (username != null) {
+            response.sendRedirect(Names.profile);
+            return;
+        }
         try {
             // Retrieve the page parameter from the request
             String page = request.getParameter("page");
@@ -54,9 +62,19 @@ public class AuthPage extends HttpServlet {
                     // Process authentication logic
                     String email = request.getParameter("email");
                     String password = request.getParameter("password");
-                    User user = PgRepository.auth(email, password);
+                    User user;
+                    try {
+                        user = PgRepository.auth(email, password);
+                    } catch (NullPointerException nullPointerException) {
+                        response.getWriter().println("Пользователь с такими данными не обнаружен");
+                        return;
+                    }
                     if (user != null) {
-                        response.sendRedirect("/home");
+                        session.setAttribute("username", user.getUsername());
+                        response.sendRedirect(Names.profile);
+                    } else {
+                        response.getWriter().println("Ошибка в введенных данных");
+                        return;
                     }
                     // Perform authentication logic using the email and password
                     // Redirect to /home
@@ -64,6 +82,14 @@ public class AuthPage extends HttpServlet {
                     // Process registration logic
                     String email = request.getParameter("email");
                     String password = request.getParameter("password");
+                    String confirmPassword = request.getParameter("confirmPassword");
+
+                    if (!password.equals(confirmPassword)) {
+                        response.getWriter().println("Пароли должны совпадать");
+                        return; // Stop further processing
+                    }
+
+
                     City city = PgRepository.getCityByName(request.getParameter("city"));
                     User user = new User();
                     System.out.println(email + " " + password);
@@ -72,9 +98,10 @@ public class AuthPage extends HttpServlet {
                     user.setCity(city);
                     connection = DriverManager.getConnection(DAOFabric.url, DAOFabric.username, DAOFabric.password);
                     DAOFabric.getUserDAO().save(user);
+                    session.setAttribute("username", email);
                     // Perform registration logic using the email and password
                     // Redirect to /home
-                    response.sendRedirect("/home");
+                    response.sendRedirect(Names.profile);
                 }
             } else {
                 // Invalid page parameter
