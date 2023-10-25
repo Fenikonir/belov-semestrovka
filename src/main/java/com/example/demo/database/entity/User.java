@@ -5,12 +5,13 @@ import java.time.LocalDateTime;
 public class User {
     private int id;
     private String username;
+    private String email;
     private String password;
     private City city;
     private LocalDateTime creationDate;
     private LocalDateTime lastModified;
 
-    public User(int id, String username, String password, City city, LocalDateTime creationDate, LocalDateTime lastModified) {
+    public User(int id, String username, String email, String password, City city, LocalDateTime creationDate, LocalDateTime lastModified) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -68,6 +69,14 @@ public class User {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     // Getters and Setters
 }

@@ -13,21 +13,6 @@
     <meta name="referrer" content="origin">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
-
-
-
-
-
-
-
-
-
-
-    <script type="application/ld+json">{
-            "@context": "http://schema.org",
-            "@type": "Organization",
-            "name": ""
-        }</script>
     <meta name="theme-color" content="#6689db">
     <meta property="og:title" content="Главная">
     <meta property="og:type" content="website">
@@ -42,19 +27,26 @@
                 </a>
             </div>
             <div class="u-nav-container">
-                <ul class="u-nav u-spacing-20 u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="${host}" style="padding: 10px;">Главная</a>
-                    </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="${host}${auth_link}" style="padding: 10px;">Авторизация</a>
-                    </li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-1-base" href="${host}${contact_link}" style="padding: 10px;">Контакты</a>
-                    </li></ul>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
+                    <#list buttons as button>
+                        <li class="u-nav-item">
+                            <a class="u-button-style u-nav-link" href="${host}${button.link}">${button.label}</a>
+                        </li>
+                    </#list>
+                </ul>
             </div>
             <div class="u-nav-container-collapse">
                 <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
                     <div class="u-inner-container-layout u-sidenav-overflow">
                         <div class="u-menu-close"></div>
-                        <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="${host}">Главная</a>
-                            </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="${host}${auth_link}">Авторизация</a>
-                            </li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="${host}${contact_link}">Контакты</a>
-                            </li></ul>
+                        <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
+                            <#list buttons as button>
+                                <li class="u-nav-item">
+                                    <a class="u-button-style u-nav-link"
+                                       href="${host}${button.link}">${button.label}</a>
+                                </li>
+                            </#list>
+                        </ul>
                     </div>
                 </div>
                 <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>

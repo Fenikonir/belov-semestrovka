@@ -5,15 +5,13 @@ import com.example.demo.database.dao.DAOFabric;
 import com.example.demo.database.entity.City;
 import com.example.demo.database.entity.User;
 import com.example.demo.database.repository.PgRepository;
+import com.example.demo.servlets.Button;
 import com.example.demo.servlets.Names;
 import com.example.demo.singleton.FreemarkerConfigSingleton;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -33,12 +31,18 @@ public class AuthPage extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
+        String userAuthed = (String) request.getSession().getAttribute("email");
+        if (userAuthed != null) {
+            response.sendRedirect(Names.profile);
+        }
         try {
             Template template = FreemarkerConfigSingleton.getCfg().getTemplate("auth.ftl");
             List<City> cityList = DAOFabric.getCityDAO().getAll();
             Map<String, Object> dataModel = new HashMap<>();
             List<String> cityNames = cityList.stream().map(City::getCityName).collect(Collectors.toList());
             dataModel.put("cities", cityNames);
+            dataModel.put("host", Names.host);
+            dataModel.put("buttons", Button.getNonAuthButton());
             template.process(dataModel, response.getWriter());
         } catch (TemplateException e) {
             e.printStackTrace();
@@ -49,7 +53,7 @@ public class AuthPage extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Connection connection = null;
         HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
+        String username = (String) session.getAttribute("email");
         if (username != null) {
             response.sendRedirect(Names.profile);
             return;
@@ -62,6 +66,8 @@ public class AuthPage extends HttpServlet {
                     // Process authentication logic
                     String email = request.getParameter("email");
                     String password = request.getParameter("password");
+                    Boolean rememberMe = "on".equals(request.getParameter("rememberMe")) ? true : false;
+                    System.out.println("Remember me status: " + rememberMe);
                     User user;
                     try {
                         user = PgRepository.auth(email, password);
@@ -70,7 +76,12 @@ public class AuthPage extends HttpServlet {
                         return;
                     }
                     if (user != null) {
-                        session.setAttribute("username", user.getUsername());
+                        session.setAttribute("email", user.getUsername());
+                        if (rememberMe) {
+                            Cookie rememberMeCookie = new Cookie("rememberMe", email);
+                            rememberMeCookie.setMaxAge(86400 * 7); // Cookie expires in 24 hours * 7 day
+                            response.addCookie(rememberMeCookie);
+                        }
                         response.sendRedirect(Names.profile);
                     } else {
                         response.getWriter().println("Ошибка в введенных данных");
@@ -93,12 +104,12 @@ public class AuthPage extends HttpServlet {
                     City city = PgRepository.getCityByName(request.getParameter("city"));
                     User user = new User();
                     System.out.println(email + " " + password);
-                    user.setUsername(email);
+                    user.setEmail(email);
                     user.setPassword(PasswordEncryption.encryptPassword(password));
                     user.setCity(city);
                     connection = DriverManager.getConnection(DAOFabric.url, DAOFabric.username, DAOFabric.password);
                     DAOFabric.getUserDAO().save(user);
-                    session.setAttribute("username", email);
+                    session.setAttribute("email", email);
                     // Perform registration logic using the email and password
                     // Redirect to /home
                     response.sendRedirect(Names.profile);

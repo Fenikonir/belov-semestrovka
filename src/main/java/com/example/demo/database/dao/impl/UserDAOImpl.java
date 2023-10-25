@@ -26,6 +26,7 @@ public class UserDAOImpl implements DAO<User> {
                 user.setId(resultSet.getInt("id"));
                 user.setUsername(resultSet.getString("username"));
                 user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
                 City city = new City();
                 city.setId(resultSet.getInt("city_id"));
                 user.setCity(city);
@@ -50,6 +51,7 @@ public class UserDAOImpl implements DAO<User> {
                 user.setId(resultSet.getInt("id"));
                 user.setUsername(resultSet.getString("username"));
                 user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
                 City city = new City();
                 city.setId(resultSet.getInt("city_id"));
                 user.setCity(city);
@@ -73,6 +75,7 @@ public class UserDAOImpl implements DAO<User> {
                 user.setId(resultSet.getInt("id"));
                 user.setUsername(resultSet.getString("username"));
                 user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
                 City city = new City();
                 city.setId(resultSet.getInt("city_id"));
                 user.setCity(city);
@@ -88,11 +91,16 @@ public class UserDAOImpl implements DAO<User> {
 
     @Override
     public void save(User entity) {
-        String query = "INSERT INTO users (username, password, city_id) VALUES (?, ?, ?)";
+        String query = "INSERT INTO users (username, email, password, city_id) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, entity.getUsername());
-            statement.setString(2, entity.getPassword());
-            statement.setInt(3, entity.getCity().getId());
+            if (entity.getUsername() != null) {
+                statement.setString(1, entity.getUsername());
+            } else {
+                statement.setString(1, "Default User");
+            }
+            statement.setString(2, entity.getEmail());
+            statement.setString(3, entity.getPassword());
+            statement.setInt(4, entity.getCity().getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,11 +109,15 @@ public class UserDAOImpl implements DAO<User> {
 
     @Override
     public void update(User entity) {
-        String query = "UPDATE users SET username = ?, password = ?, last_modified = ?, city_id = ? WHERE id = ?";
+        String query = "UPDATE users SET username = ?, password = ?, email = ?, city_id = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, entity.getUsername());
+            if (entity.getUsername() != null) {
+                statement.setString(1, entity.getUsername());
+            } else {
+                statement.setString(1, "Default User");
+            }
             statement.setString(2, entity.getPassword());
-            statement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+            statement.setString(3, entity.getEmail());
             statement.setInt(4, entity.getCity().getId());
             statement.setInt(5, entity.getId());
             statement.executeUpdate();
