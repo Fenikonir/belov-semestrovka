@@ -11,14 +11,14 @@ public class Button {
 
     public static List<Button> getAuthButton() {
         if (authUser == null) {
-            authUser = List.of(new Button("Главная", ""), new Button("Контакты", Names.contact), new Button("Профиль", Names.profile));
+            authUser = List.of(new Button("Главная", ""), new Button("Контакты", Names.CONTACT_LINK), new Button("Профиль", Names.PROFILE_LINK));
         }
         return authUser;
     }
 
     public static List<Button> getNonAuthButton() {
         if (notAuthUser == null) {
-            notAuthUser = List.of(new Button("Главная", ""), new Button("Авторизация", Names.auth), new Button("Контакты", Names.contact));
+            notAuthUser = List.of(new Button("Главная", ""), new Button("Авторизация", Names.AUTH_LINK), new Button("Контакты", Names.CONTACT_LINK));
         }
         return notAuthUser;
     }

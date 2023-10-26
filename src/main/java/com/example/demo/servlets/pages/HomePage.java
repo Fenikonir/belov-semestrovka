@@ -22,11 +22,11 @@ public class HomePage extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
-        String userAuthed = (String) request.getSession().getAttribute("email");
+        String userAuthed = (String) request.getSession().getAttribute(Names.SESSION_AUTH_ATTRIBUTE);
         try {
-            Template template = FreemarkerConfigSingleton.getCfg().getTemplate("index.ftl");
+            Template template = FreemarkerConfigSingleton.getCfg().getTemplate(Names.HOME_FILE);
             Map<String, Object> dataModel = new HashMap<>();
-            dataModel.put("host", Names.host);
+            dataModel.put("host", Names.HOST_LINK);
             if (userAuthed != null) {
                 dataModel.put("buttons", Button.getAuthButton());
             } else {

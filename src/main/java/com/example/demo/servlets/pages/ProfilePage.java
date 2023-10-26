@@ -1,6 +1,5 @@
 package com.example.demo.servlets.pages;
 
-import com.example.demo.database.dao.DAOFabric;
 import com.example.demo.database.entity.User;
 import com.example.demo.database.repository.PgRepository;
 import com.example.demo.servlets.Button;
@@ -17,7 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(Names.profile)
+@WebServlet(Names.PROFILE_LINK)
 public class ProfilePage extends HttpServlet {
     public void init() {
         FreemarkerConfigSingleton.setServletContext(this.getServletContext());
@@ -26,11 +25,13 @@ public class ProfilePage extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         try {
-            Template template = FreemarkerConfigSingleton.getCfg().getTemplate("profile.ftl");
-            User user = PgRepository.getUserByEmail((String) request.getSession().getAttribute("email"));
+
+            Template template = FreemarkerConfigSingleton.getCfg().getTemplate(Names.PROFILE_FILE);
+            User user = PgRepository.getUserByEmail((String) request.getSession().getAttribute(Names.SESSION_AUTH_ATTRIBUTE));
             Map<String, Object> dataModel = new HashMap<>();
-            dataModel.put("host", Names.host);
+            dataModel.put("host", Names.HOST_LINK);
             dataModel.put("buttons", Button.getAuthButton());
+            System.out.println("ProfilePage: " + user.getUsername());
             dataModel.put("user", user);
             template.process(dataModel, response.getWriter());
         } catch (TemplateException e) {
@@ -38,7 +39,6 @@ public class ProfilePage extends HttpServlet {
             response.getWriter().println("Error processing Freemarker template.");
         }
     }
-
     public void destroy() {
     }
 }

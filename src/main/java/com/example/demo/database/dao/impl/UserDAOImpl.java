@@ -1,14 +1,18 @@
 package com.example.demo.database.dao.impl;
 
 import com.example.demo.database.dao.DAO;
+import com.example.demo.database.dao.DAOFabric;
+import com.example.demo.database.entity.Article;
 import com.example.demo.database.entity.City;
 import com.example.demo.database.entity.User;
+import com.example.demo.database.repository.PgRepository;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements DAO<User> {
-    private Connection connection;
+    private final Connection connection;
 
     public UserDAOImpl(Connection connection) {
         this.connection = connection;
@@ -22,16 +26,7 @@ public class UserDAOImpl implements DAO<User> {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                user = new User();
-                user.setId(resultSet.getInt("id"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                City city = new City();
-                city.setId(resultSet.getInt("city_id"));
-                user.setCity(city);
-                user.setCreationDate(resultSet.getTimestamp("creation_date").toLocalDateTime());
-                user.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+                user = extractUserFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,20 +42,12 @@ public class UserDAOImpl implements DAO<User> {
             statement.setString(1, value);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                user = new User();
-                user.setId(resultSet.getInt("id"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                City city = new City();
-                city.setId(resultSet.getInt("city_id"));
-                user.setCity(city);
-                user.setCreationDate(resultSet.getTimestamp("creation_date").toLocalDateTime());
-                user.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+                user = extractUserFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("UserDaoImpl: " + "getUser" + user.toString());
         return user;
     }
 
@@ -71,16 +58,7 @@ public class UserDAOImpl implements DAO<User> {
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getInt("id"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
-                City city = new City();
-                city.setId(resultSet.getInt("city_id"));
-                user.setCity(city);
-                user.setCreationDate(resultSet.getTimestamp("creation_date").toLocalDateTime());
-                user.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+                User user = extractUserFromResultSet(resultSet);
                 userList.add(user);
             }
         } catch (SQLException e) {
@@ -91,17 +69,26 @@ public class UserDAOImpl implements DAO<User> {
 
     @Override
     public void save(User entity) {
-        String query = "INSERT INTO users (username, email, password, city_id) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            if (entity.getUsername() != null) {
-                statement.setString(1, entity.getUsername());
-            } else {
-                statement.setString(1, "Default User");
-            }
+        String query = "INSERT INTO users (username, email, password, city_id, creation_date, last_modified, first_name, last_name, birthday, role, mobile_phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, entity.getUsername());
             statement.setString(2, entity.getEmail());
             statement.setString(3, entity.getPassword());
             statement.setInt(4, entity.getCity().getId());
+            statement.setObject(5, entity.getCreationDate());
+            statement.setObject(6, entity.getLastModified());
+            statement.setString(7, entity.getFirstName());
+            statement.setString(8, entity.getLastName());
+            statement.setObject(9, entity.getBirthday());
+            statement.setString(10, entity.getRole());
+            statement.setString(11, entity.getMobilePhone());
+            DAO< Article> articleDAO = DAOFabric.getArticleDAO();
+            articleDAO.save(entity.getBio());
             statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                entity.setId(generatedKeys.getInt(1));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -109,17 +96,20 @@ public class UserDAOImpl implements DAO<User> {
 
     @Override
     public void update(User entity) {
-        String query = "UPDATE users SET username = ?, password = ?, email = ?, city_id = ? WHERE id = ?";
+        String query = "UPDATE users SET username = ?, password = ?, email = ?, city_id = ?, creation_date = ?, last_modified = ?, first_name = ?, last_name = ?, birthday = ?, role = ?, mobile_phone = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            if (entity.getUsername() != null) {
-                statement.setString(1, entity.getUsername());
-            } else {
-                statement.setString(1, "Default User");
-            }
+            statement.setString(1, entity.getUsername());
             statement.setString(2, entity.getPassword());
             statement.setString(3, entity.getEmail());
             statement.setInt(4, entity.getCity().getId());
-            statement.setInt(5, entity.getId());
+            statement.setObject(5, entity.getCreationDate());
+            statement.setObject(6, entity.getLastModified());
+            statement.setString(7, entity.getFirstName());
+            statement.setString(8, entity.getLastName());
+            statement.setObject(9, entity.getBirthday());
+            statement.setString(10, entity.getRole());
+            statement.setString(11, entity.getMobilePhone());
+            statement.setInt(12, entity.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,5 +125,24 @@ public class UserDAOImpl implements DAO<User> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private User extractUserFromResultSet(ResultSet resultSet) throws SQLException {
+        User user = new User();
+        user.setId(resultSet.getInt("id"));
+        user.setUsername(resultSet.getString("username"));
+        user.setPassword(resultSet.getString("password"));
+        user.setEmail(resultSet.getString("email"));
+        City city = (City) DAOFabric.getCityDAO().getById(resultSet.getInt("city_id"));
+        user.setCity(city);
+        user.setCreationDate(resultSet.getTimestamp("creation_date").toLocalDateTime());
+        user.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+        user.setBio(PgRepository.getBioForUser(user.getId()));
+        user.setFirstName(resultSet.getString("first_name"));
+        user.setLastName(resultSet.getString("last_name"));
+        user.setBirthday(resultSet.getDate("birthday").toLocalDate());
+        user.setRole(resultSet.getString("role"));
+        user.setMobilePhone(resultSet.getString("mobile_phone"));
+        return user;
     }
 }

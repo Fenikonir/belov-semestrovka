@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(Names.contact)
+@WebServlet(Names.CONTACT_LINK)
 public class ContactPage extends HttpServlet {
     public void init() {
         FreemarkerConfigSingleton.setServletContext(this.getServletContext());
@@ -22,11 +22,11 @@ public class ContactPage extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
-        String userAuthed = (String) request.getSession().getAttribute("email");
+        String userAuthed = (String) request.getSession().getAttribute(Names.SESSION_AUTH_ATTRIBUTE);
         try {
-            Template template = FreemarkerConfigSingleton.getCfg().getTemplate("Контакты.ftl");
+            Template template = FreemarkerConfigSingleton.getCfg().getTemplate(Names.CONTACT_FILE);
             Map<String, Object> dataModel = new HashMap<>();
-            dataModel.put("host", Names.host);
+            dataModel.put("host", Names.HOST_LINK);
             if (userAuthed != null) {
                 dataModel.put("buttons", Button.getAuthButton());
             } else {

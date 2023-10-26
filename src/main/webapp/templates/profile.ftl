@@ -18,53 +18,7 @@
 
 </head>
 <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="ru">
-<header class="u-clearfix u-header u-header" id="sec-257e">
-    <div class="u-clearfix u-sheet u-sheet-1">
-        <nav class="u-menu u-menu-hamburger u-offcanvas u-menu-1" data-responsive-from="XL">
-            <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px; font-weight: 700;">
-                <a class="u-button-style u-custom-border u-custom-border-color u-custom-borders u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-color u-custom-text-hover-color u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
-                   href="#">
-                    <svg class="u-svg-link" viewBox="0 0 24 24">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu-hamburger"></use>
-                    </svg>
-                    <svg class="u-svg-content" version="1.1" id="menu-hamburger" viewBox="0 0 16 16" x="0px" y="0px"
-                         xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
-                        <g>
-                            <rect y="1" width="16" height="2"></rect>
-                            <rect y="7" width="16" height="2"></rect>
-                            <rect y="13" width="16" height="2"></rect>
-                        </g>
-                    </svg>
-                </a>
-            </div>
-            <div class="u-nav-container">
-                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
-                    <#list buttons as button>
-                        <li class="u-nav-item">
-                            <a class="u-button-style u-nav-link" href="${host}${button.link}">${button.label}</a>
-                        </li>
-                    </#list>
-                </ul>
-            </div>
-            <div class="u-nav-container-collapse">
-                <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
-                    <div class="u-inner-container-layout u-sidenav-overflow">
-                        <div class="u-menu-close"></div>
-                        <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
-                            <#list buttons as button>
-                                <li class="u-nav-item">
-                                    <a class="u-button-style u-nav-link"
-                                       href="${host}${button.link}">${button.label}</a>
-                                </li>
-                            </#list>
-                        </ul>
-                    </div>
-                </div>
-                <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
-            </div>
-        </nav>
-    </div>
-</header>
+<#include "header.ftl">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container bootstrap snippets bootdey">
     <div class="row">
@@ -74,14 +28,12 @@
                     <a href="#">
                         <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt>
                     </a>
-                    <h1>${user.username}</h1>
-                    <p><a class="__cf_email__">${user.email}</a></p>
+                    <h1>${user.getUsername()}</h1>
+                    <p><a class="__cf_email__" style="color: #0f0f0f">${user.getEmail()}</a></p>
                 </div>
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active"><a href="#"> <i class="fa fa-user"></i> Profile</a></li>
-                    <li><a href="#"> <i class="fa fa-calendar"></i> Recent Activity <span
-                                    class="label label-warning pull-right r-activity">9</span></a></li>
-                    <li><a href="#"> <i class="fa fa-edit"></i> Edit profile</a></li>
+                    <li class="active"><a href="#"> <i class="fa fa-user"></i> Профиль</a></li>
+                    <li><a href="#"> <i class="fa fa-edit"></i> Редактировать Профиль</a></li>
                 </ul>
             </div>
         </div>
@@ -111,37 +63,32 @@
             </div>
             <div class="panel">
                 <div class="bio-graph-heading">
-                    Aliquam ac magna metus. Nam sed arcu non tellus fringilla fringilla ut vel ispum. Aliquam ac magna
-                    metus.
+                    ${user.getBio().getValue()}
                 </div>
                 <div class="panel-body bio-graph-info">
-                    <h1>Bio Graph</h1>
+                    <h1>Биография</h1>
                     <div class="row">
                         <div class="bio-row">
-                            <p><span>First Name </span>: Camila</p>
+                            <p><span>Имя </span>:    ${user.getFirstName()}</p>
                         </div>
                         <div class="bio-row">
-                            <p><span>Last Name </span>: Smith</p>
+                            <p><span>Фамилия </span>: ${user.getLastName()}</p>
                         </div>
                         <div class="bio-row">
-                            <p><span>Country </span>: Australia</p>
+                            <p><span>Город </span>:  <#if user.getCity()??>
+                                    ${user.getCity().getCityName()}
+                                <#else>
+                                    Нет информации о городе
+                                </#if></p>
                         </div>
                         <div class="bio-row">
-                            <p><span>Birthday</span>: 13 July 1983</p>
+                            <p><span>День рождения</span>:   ${user.getMaturBD()}</p>
                         </div>
                         <div class="bio-row">
-                            <p><span>Occupation </span>: UI Designer</p>
+                            <p><span>Роль </span>:  ${user.getRole()}</p>
                         </div>
                         <div class="bio-row">
-                            <p><span>Email </span>: <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                                       data-cfemail="a5cfd6c8ccd1cde5c3c9c4d1c9c4c78bc6cac8">[email&#160;protected]</a>
-                            </p>
-                        </div>
-                        <div class="bio-row">
-                            <p><span>Mobile </span>: (12) 03 4567890</p>
-                        </div>
-                        <div class="bio-row">
-                            <p><span>Phone </span>: 88 (02) 123456</p>
+                            <p><span>Телефон </span>: ${user.getMobilePhone()}</p>
                         </div>
                     </div>
                 </div>

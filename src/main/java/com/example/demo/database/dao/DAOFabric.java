@@ -31,6 +31,8 @@ public class DAOFabric {
     public static DAO trainDAO = null;
     public static DAO trolleyDAO = null;
 
+    public static DAO articleDAO = null;
+
     public static DAO getUserDAO() {
         if (userDAO == null) {
             userDAO = new UserDAOImpl(connection);
@@ -71,6 +73,13 @@ public class DAOFabric {
             trolleyDAO = new TrolleyDAOImpl(connection);
         }
         return trolleyDAO;
+    }
+
+    public static DAO getArticleDAO() {
+        if (articleDAO == null) {
+            articleDAO =  new ArticleDAOImpl(connection);
+        }
+        return articleDAO;
     }
 
     public static void closeConnection() {

@@ -2,7 +2,8 @@ package com.example.demo.database.dao;
 
 import java.util.List;
 
-public interface DAO<T> {
+public interface
+DAO<T> {
     T getById(int id);
     T getByParameter(String p, String v);
     List<T> getAll();
