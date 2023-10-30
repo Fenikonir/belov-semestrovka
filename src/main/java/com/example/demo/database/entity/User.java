@@ -156,8 +156,8 @@ public class User {
     }
 
     public String getAvatar() {
-        Object avatar = PgRepository.getUserAvatar(id);
-        if (avatar == null) {
+        UserFiles avatar = PgRepository.getUserAvatar(id);
+        if (avatar.getFile_path() == null) {
             return "https://bootdey.com/img/Content/avatar/avatar3.png";
         }
         return "../resources/images/" + ((UserFiles) avatar).getFile_path();

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../resources/css/profile.css" media="screen">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../resources/css/nicepage.css" media="screen">
-    <script src="../resources/js/profile.js?v=004"></script>
+    <script src="../resources/js/profile.js?v=005"></script>
     <script src="../resources/imasked.js.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

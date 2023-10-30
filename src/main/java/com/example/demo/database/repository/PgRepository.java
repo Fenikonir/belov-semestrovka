@@ -107,12 +107,13 @@ public class PgRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("PgRepository Avatars: " + userFiles);
+        System.out.println("PgRepository Avatars: filePath " + userFiles.getFile_path());
         return userFiles;
     }
 
     public static void saveUserAvatar(UserFiles newUserFiles) {
-        if (getUserAvatar(newUserFiles.getUserId()) == null) {
+        System.out.println("Изменение аватара у пользователя на " + newUserFiles.getFile_path());
+        if (getUserAvatar(newUserFiles.getUserId()).getFile_path() == null) {
             String query = "INSERT INTO files (user_id, file_path, file_type) VALUES (?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 System.out.println("PgRepository: save new avatar for " + newUserFiles.getUserId());
@@ -120,15 +121,18 @@ public class PgRepository {
                 statement.setString(2, newUserFiles.getFile_path());
                 statement.setString(3, newUserFiles.getFile_type());
                 statement.executeUpdate();
+                System.out.println("PgRepository: файл успешно загружен");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else {
-            String query = "UPDATE files SET file_path = ? WHERE id = ? AND file_type = 'avatar'";
+            String query = "UPDATE files SET file_path = ? WHERE user_id = ? AND file_type = 'avatar'";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
+                System.out.println("Начало обновления аватара ");
                 statement.setInt(2, newUserFiles.getUserId());
                 statement.setString(1, newUserFiles.getFile_path());
                 statement.executeUpdate();
+                System.out.println("PgRepository: файл успешно обновлен");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

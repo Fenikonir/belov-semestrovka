@@ -41,8 +41,11 @@ public class UploadFiles extends HttpServlet {
 
         // Save the file to the directory
         try (InputStream fileContent = filePart.getInputStream()) {
+            System.out.println("Начало записи файла " + fileName);
             Path filePath = directoryPath.resolve(fileName);
             Files.copy(fileContent, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            System.out.println("Файл не записан");
         }
 
         HttpSession session = request.getSession();
