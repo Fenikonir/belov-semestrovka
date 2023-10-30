@@ -32,6 +32,7 @@ public class DAOFabric {
     public static DAO trolleyDAO = null;
 
     public static DAO articleDAO = null;
+    public static DAO filesDAO = null;
 
     public static DAO getUserDAO() {
         if (userDAO == null) {
@@ -81,6 +82,14 @@ public class DAOFabric {
         }
         return articleDAO;
     }
+
+    public static DAO getFilesDAO() {
+        if (filesDAO == null) {
+            filesDAO =  new FilesDAOImpl(connection);
+        }
+        return filesDAO;
+    }
+
 
     public static void closeConnection() {
         if (connection != null) {

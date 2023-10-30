@@ -6,10 +6,10 @@
     <meta name="keywords" content="Белов Эмиль Сергеевич">
     <meta name="description" content="">
     <title>Контакты</title>
-    <link rel="stylesheet" href="../resources/nicepage.css" media="screen">
-    <link rel="stylesheet" href="../resources/Контакты.css" media="screen">
-    <script class="u-script" type="text/javascript" src="../resources/jquery.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="../resources/nicepage.js" defer=""></script>
+    <link rel="stylesheet" href="../resources/css/nicepage.css" media="screen">
+    <link rel="stylesheet" href="../resources/css/Контакты.css" media="screen">
+    <script class="u-script" type="text/javascript" src="../resources/js/jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="../resources/js/nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 5.20.7, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">

@@ -2,11 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Профиль</title>
+    <title>Редактирование Профиля</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../resources/css/profile.css" media="screen">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../resources/css/nicepage.css" media="screen">
+    <script src="../resources/js/profile.js?v=004"></script>
+    <script src="../resources/imasked.js.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script class="u-script" type="text/javascript" src="../resources/js/jquery.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="../resources/js/nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 5.20.7, nicepage.com">
@@ -26,14 +32,16 @@
             <div class="panel">
                 <div class="user-heading round">
                     <a href="#">
-                        <img src="${user.getAvatar()}" alt>
+                        <img id="avatarImage" src="${user.getAvatar()}" alt>
                     </a>
                     <h1>${user.getUsername()}</h1>
                     <p><a class="__cf_email__" style="color: #0f0f0f">${user.getEmail()}</a></p>
+                    <input type="file" id="avatarInput" style="display: none;">
+                    <button id="confirmUploadButton">Подтвердить</button>
                 </div>
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active"><a href="${host}/profile"> <i class="fa fa-user"></i> Профиль</a></li>
-                    <li><a href="${host}/edit_profile"> <i class="fa fa-edit"></i> Редактировать Профиль</a></li>
+                    <li><a href="${host}/profile"> <i class="fa fa-user"></i> Профиль</a></li>
+                    <li class="active"><a href="${host}/edit_profile"> <i class="fa fa-edit"></i> Редактировать Профиль</a></li>
                 </ul>
             </div>
         </div>
@@ -69,28 +77,32 @@
                     <h1>Биография</h1>
                     <div class="row">
                         <div class="bio-row">
-                            <p><span>Имя </span>:    ${user.getFirstName()}</p>
+                            <span>Имя </span>: <input id="firstName" type="text" value="${user.getFirstName()}">
                         </div>
                         <div class="bio-row">
-                            <p><span>Фамилия </span>: ${user.getLastName()}</p>
+                            <span>Фамилия </span>: <input id="lastName" type="text" value="${user.getLastName()}">
                         </div>
                         <div class="bio-row">
-                            <p><span>Город </span>:  <#if user.getCity()??>
-                                    ${user.getCity().getCityName()}
-                                <#else>
-                                    Нет информации о городе
-                                </#if></p>
+                            <span>Город </span>:
+                            <select id="city" name="city">
+                                <option value="" disabled>Выберите город</option>
+                                <#list cities as city>
+                                    <option value="${city}" <#if user.getCity()??> <#if city == user.getCity().getCityName()>selected</#if></#if>>${city}</option>
+                                </#list>
+                            </select>
                         </div>
                         <div class="bio-row">
-                            <p><span>День рождения</span>:   ${user.getMaturBD()}</p>
+                            <span>День рождения</span>:
+                            <input id="birthday" type="text" class="datepicker" data-provide="datepicker" value="${user.getEditProfileBD()}">
                         </div>
                         <div class="bio-row">
-                            <p><span>Роль </span>:  ${user.getRole()}</p>
+                            <span>Роль </span>: <input id="role" type="text" value="${user.getRole()}">
                         </div>
                         <div class="bio-row">
-                            <p><span>Телефон </span>: ${user.getMobilePhone()}</p>
+                            <span>Телефон </span>:  <input id="phone" type="tel" autocomplete="tel" placeholder="Phone number" required value="${user.getMobilePhone()}">
                         </div>
                     </div>
+                    <button id="saveButton" class="btn btn-success">Сохранить</button>
                 </div>
             </div>
             <div>

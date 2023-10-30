@@ -1,5 +1,9 @@
 package com.example.demo.database.entity;
 
+import com.example.demo.database.dao.DAOFabric;
+import com.example.demo.database.repository.PgRepository;
+import com.example.demo.servlets.Names;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +23,8 @@ public class User {
     private String role;
     private String mobilePhone;
     private Article bio;
+
+    private String avatar;
 
     public User(int id, String username, String email, String password, City city, LocalDateTime creationDate, LocalDateTime lastModified, String firstName, String lastName, LocalDate birthday, String role, String mobilePhone, Article bio) {
         this.id = id;
@@ -149,12 +155,26 @@ public class User {
         return mobilePhone;
     }
 
+    public String getAvatar() {
+        Object avatar = PgRepository.getUserAvatar(id);
+        if (avatar == null) {
+            return "https://bootdey.com/img/Content/avatar/avatar3.png";
+        }
+        return "../resources/images/" + ((UserFiles) avatar).getFile_path();
+    }
+
     public void setMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
     }
 
     public String getMaturBD() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("ru"));
+        String formattedDate = getBirthday().format(formatter);
+        return formattedDate;
+    }
+
+    public String getEditProfileBD() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         String formattedDate = getBirthday().format(formatter);
         return formattedDate;
     }

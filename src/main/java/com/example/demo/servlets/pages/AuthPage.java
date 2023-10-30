@@ -33,6 +33,20 @@ public class AuthPage extends HttpServlet {
         String userAuthed = (String) request.getSession().getAttribute(Names.SESSION_AUTH_ATTRIBUTE);
         if (userAuthed != null) {
             response.sendRedirect(Names.PROFILE_LINK);
+        } else {
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals(Names.COOKIES_AUTH_ATTRIBUTE)) {
+                        System.out.println("AuthFilter" + "Cookies " + cookie.getValue());
+                        if (PgRepository.haveUser(cookie.getValue())) {
+                            request.getSession().setAttribute(Names.SESSION_AUTH_ATTRIBUTE, cookie.getValue());
+                            response.sendRedirect(Names.PROFILE_LINK);
+                        }
+                        break;
+                    }
+                }
+            }
         }
         try {
             Template template = FreemarkerConfigSingleton.getCfg().getTemplate(Names.AUTH_FILE);

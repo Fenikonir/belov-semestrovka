@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Авторизация и регистрация </title>
-    <link rel="stylesheet" href="../resources/nicepage.css" media="screen">
-    <script class="u-script" type="text/javascript" src="../resources/jquery.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="../resources/nicepage.js" defer=""></script>
+    <link rel="stylesheet" href="../resources/css/nicepage.css" media="screen">
+    <script class="u-script" type="text/javascript" src="../resources/js/jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="../resources/js/nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 5.20.7, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <meta name="theme-color" content="#6689db">
     <meta property="og:type" content="website">
     <meta data-intl-tel-input-cdn-path="intlTelInput/">
-    <link rel="stylesheet" href="../resources/auth.css">
+    <link rel="stylesheet" href="../resources/css/auth.css">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="ru">
@@ -91,6 +91,6 @@
         </div>
     </div>
 </section>
-<script src="../resources/auth.js"></script>
+<script src="../resources/js/auth.js"></script>
 </body>
 </html>

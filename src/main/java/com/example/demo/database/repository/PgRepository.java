@@ -92,8 +92,8 @@ public class PgRepository {
         return article;
     }
 
-    private static UserFiles getUserAvatar(int userId) {
-        UserFiles userFiles = null;
+    public static UserFiles getUserAvatar(int userId) {
+        UserFiles userFiles = new UserFiles();
         String query = "SELECT * FROM files WHERE user_id = ? AND file_type = 'avatar'";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
@@ -107,10 +107,11 @@ public class PgRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("PgRepository Avatars: " + userFiles);
         return userFiles;
     }
 
-    private static void saveUserAvatar(UserFiles newUserFiles) {
+    public static void saveUserAvatar(UserFiles newUserFiles) {
         if (getUserAvatar(newUserFiles.getUserId()) == null) {
             String query = "INSERT INTO files (user_id, file_path, file_type) VALUES (?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(query)) {

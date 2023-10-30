@@ -1,9 +1,13 @@
 package com.example.demo.database.entity;
 
+import java.time.LocalDateTime;
+
 public class Article {
     private int id;
     private int authorId;
     private String type;
+
+    private LocalDateTime createdDate;
 
     private String value;
 

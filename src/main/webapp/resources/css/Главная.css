@@ -20,7 +20,7 @@
 .u-section-1 .u-image-1 {
   width: 755px;
   height: 755px;
-  background-image: url("images/beautiful-scenery-summit-mount-everest-6.jpg");
+  background-image: url("../images/beautiful-scenery-summit-mount-everest-6.jpg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: -300px;
@@ -637,7 +637,7 @@
 .u-section-3 .u-image-1 {
   height: 238px;
   width: 238px;
-  background-image: url("images/543.jpg");
+  background-image: url("../images/543.jpg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: -300px;
@@ -681,7 +681,7 @@
 .u-section-3 .u-image-2 {
   height: 238px;
   width: 238px;
-  background-image: url("images/4.jpg");
+  background-image: url("../images/4.jpg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: -300px;
@@ -749,7 +749,7 @@
 .u-section-3 .u-image-3 {
   height: 221px;
   width: 221px;
-  background-image: url("images/young-rural-travellers-picnic3.jpg");
+  background-image: url("../images/young-rural-travellers-picnic3.jpg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: 300px;
@@ -793,7 +793,7 @@
 .u-section-3 .u-image-4 {
   height: 238px;
   width: 238px;
-  background-image: url("images/young-rural-travellers-picnic3t.jpg");
+  background-image: url("../images/young-rural-travellers-picnic3t.jpg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: 300px;
@@ -1097,7 +1097,7 @@
 .u-section-4 .u-image-1 {
   width: 569px;
   height: 569px;
-  background-image: url("images/new.jpg");
+  background-image: url("../images/new.jpg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 50px;
   --animation-custom_in-translate_y: 0px;
@@ -1386,7 +1386,7 @@
 .u-section-6 .u-image-1 {
   width: 424px;
   height: 424px;
-  background-image: url("images/aerial-view-doi-luang-chiang-dao-mountain.jpg");
+  background-image: url("../images/aerial-view-doi-luang-chiang-dao-mountain.jpg");
   background-position: 50% 50%;
   --animation-custom_in-translate_x: -300px;
   --animation-custom_in-translate_y: 0px;
@@ -1553,7 +1553,7 @@
 }
 
 .u-section-7 .u-image-1 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('images/6456.jpg');
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('../images/6456.jpg');
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: 300px;
@@ -1590,7 +1590,7 @@
 }
 
 .u-section-7 .u-image-2 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('images/53455.jpg');
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('../images/53455.jpg');
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: 300px;
@@ -1627,7 +1627,7 @@
 }
 
 .u-section-7 .u-image-3 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('images/34234.jpg');
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('../images/34234.jpg');
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: 300px;
@@ -1666,7 +1666,7 @@
 }
 
 .u-section-7 .u-image-4 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('images/r67y54.jpg');
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('../images/r67y54.jpg');
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: 300px;
@@ -1703,7 +1703,7 @@
 }
 
 .u-section-7 .u-image-5 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('images/6465.jpg');
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('../images/6465.jpg');
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: 300px;
@@ -1740,7 +1740,7 @@
 }
 
 .u-section-7 .u-image-6 {
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('images/tytytytyu.jpg');
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('../images/tytytytyu.jpg');
   background-position: 50% 50%;
   --animation-custom_in-translate_x: 0px;
   --animation-custom_in-translate_y: 300px;
@@ -1920,7 +1920,7 @@
   height: 691px;
   object-position: 0% 50%;
   background-position: 50% 50%;
-  background-image: url("images/ebae7bcba5475ede8dcd65d1275d4c8b1777771c11901710eefe0c6497d908c19a1835f650887fe6bee9cf6c0512f06005165a9f90c82b6ad44315_1280.jpg");
+  background-image: url("../images/ebae7bcba5475ede8dcd65d1275d4c8b1777771c11901710eefe0c6497d908c19a1835f650887fe6bee9cf6c0512f06005165a9f90c82b6ad44315_1280.jpg");
   --animation-custom_in-translate_x: 50px;
   --animation-custom_in-translate_y: 0px;
   --animation-custom_in-opacity: 0;

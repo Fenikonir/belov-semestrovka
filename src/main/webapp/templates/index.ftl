@@ -7,10 +7,10 @@
           content="​Book your Perfect Experience, ​How We Do It?, ​Get away, right away, ​Expeditions, Walking, Hiking">
     <meta name="description" content="">
     <title>Главная</title>
-    <link rel="stylesheet" href="../resources/nicepage.css" media="screen">
-    <link rel="stylesheet" href="../resources/Главная.css" media="screen">
-    <script class="u-script" type="text/javascript" src="../resources/jquery.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="../resources/nicepage.js" defer=""></script>
+    <link rel="stylesheet" href="../resources/css/nicepage.css" media="screen">
+    <link rel="stylesheet" href="../resources/css/Главная.css" media="screen">
+    <script class="u-script" type="text/javascript" src="../resources/js/jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="../resources/js/nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 5.20.7, nicepage.com">
     <meta name="referrer" content="origin">
     <link id="u-theme-google-font" rel="stylesheet"
