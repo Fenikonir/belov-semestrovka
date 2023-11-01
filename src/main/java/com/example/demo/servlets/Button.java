@@ -11,7 +11,7 @@ public class Button {
 
     public static List<Button> getAuthButton() {
         if (authUser == null) {
-            authUser = List.of(new Button("Главная", ""), new Button("Контакты", Names.CONTACT_LINK), new Button("Профиль", Names.PROFILE_LINK));
+            authUser = List.of(new Button("Главная", ""), new Button("Контакты", Names.CONTACT_LINK), new Button("Профиль", Names.PROFILE_LINK), new Button("Форум", Names.FORUM_LINK));
         }
         return authUser;
     }

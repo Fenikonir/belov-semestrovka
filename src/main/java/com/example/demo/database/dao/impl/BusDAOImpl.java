@@ -1,6 +1,7 @@
 package com.example.demo.database.dao.impl;
 
 import com.example.demo.database.dao.DAO;
+import com.example.demo.database.dao.TransportDAO;
 import com.example.demo.database.entity.Bus;
 import com.example.demo.database.entity.City;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 import static com.example.demo.database.dao.DAOFabric.*;
 
-public class BusDAOImpl implements DAO<Bus> {
+public class BusDAOImpl implements DAO<Bus> , TransportDAO<Bus> {
 
     private Connection connection;
 
@@ -119,5 +120,28 @@ public class BusDAOImpl implements DAO<Bus> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Bus> getByCity(int cityId) {
+        List<Bus> busList = new ArrayList<>();
+        String query = "SELECT * FROM Buses WHERE city_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, cityId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Bus bus = new Bus();
+                bus.setId(resultSet.getInt("id"));
+                bus.setBusNumber(resultSet.getString("bus_number"));
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                bus.setCity(city);
+                bus.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+                busList.add(bus);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return busList;
     }
 }

@@ -39,6 +39,8 @@ public class EditProfilePage extends HttpServlet {
             dataModel.put("buttons", Button.getAuthButton());
             System.out.println("ProfilePage: " + user.getUsername());
             dataModel.put("user", user);
+            dataModel.put("pageTitle", "Редактирование Профиля");
+            dataModel.put("lang", "en");
             List<City> cityList = DAOFabric.getCityDAO().getAll();
             List<String> cityNames = cityList.stream().map(City::getCityName).collect(Collectors.toList());
             dataModel.put("cities", cityNames);

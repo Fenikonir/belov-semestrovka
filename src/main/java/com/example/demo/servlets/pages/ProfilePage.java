@@ -1,6 +1,7 @@
 package com.example.demo.servlets.pages;
 
-import com.example.demo.database.entity.User;
+import com.example.demo.database.dao.DAOFabric;
+import com.example.demo.database.entity.*;
 import com.example.demo.database.repository.PgRepository;
 import com.example.demo.servlets.Button;
 import com.example.demo.servlets.Names;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet(Names.PROFILE_LINK)
@@ -34,6 +36,18 @@ public class ProfilePage extends HttpServlet {
             dataModel.put("buttons", Button.getAuthButton());
             System.out.println("ProfilePage: " + user.getUsername());
             dataModel.put("user", user);
+            dataModel.put("pageTitle", "Профиль");
+            dataModel.put("lang", "en");
+
+            List planes = DAOFabric.getPlaneTransportDAO().getByCity(user.getCity().getId());
+            List trains = DAOFabric.getTrainTransportDAO().getByCity(user.getCity().getId());
+            List trolleys = DAOFabric.getTrolleyTransportDAO().getByCity(user.getCity().getId());
+            List buses = DAOFabric.getBusTransportDAO().getByCity(user.getCity().getId());
+            System.out.println("PageProfile: " + String.valueOf(planes.size()) + " " + trains.size() + " " + trolleys.size() + " " + buses.size());
+            dataModel.put("planes", planes.size());
+            dataModel.put("trains", trains.size());
+            dataModel.put("trolleys", trolleys.size());
+            dataModel.put("buses", buses.size());
             template.process(dataModel, response.getWriter());
         } catch (TemplateException e) {
             e.printStackTrace();

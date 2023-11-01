@@ -1,6 +1,7 @@
 package com.example.demo.database.dao.impl;
 
 import com.example.demo.database.dao.DAO;
+import com.example.demo.database.dao.TransportDAO;
 import com.example.demo.database.entity.City;
 import com.example.demo.database.entity.Plane;
 

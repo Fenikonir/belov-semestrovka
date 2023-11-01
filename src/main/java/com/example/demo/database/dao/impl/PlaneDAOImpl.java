@@ -1,6 +1,7 @@
 package com.example.demo.database.dao.impl;
 
 import com.example.demo.database.dao.DAO;
+import com.example.demo.database.dao.TransportDAO;
 import com.example.demo.database.entity.Plane;
 import com.example.demo.database.entity.City;
 
@@ -8,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaneDAOImpl implements DAO<Plane> {
+public class PlaneDAOImpl implements DAO<Plane> , TransportDAO<Plane> {
     private Connection connection;
 
     public PlaneDAOImpl(Connection connection) {
@@ -116,5 +117,28 @@ public class PlaneDAOImpl implements DAO<Plane> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Plane> getByCity(int cityId) {
+        List<Plane> planeList = new ArrayList<>();
+        String query = "SELECT * FROM Planes WHERE city_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, cityId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Plane plane = new Plane();
+                plane.setId(resultSet.getInt("id"));
+                plane.setPlaneNumber(resultSet.getString("plane_number"));
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                plane.setCity(city);
+                plane.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+                planeList.add(plane);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return planeList;
     }
 }

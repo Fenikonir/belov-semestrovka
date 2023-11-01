@@ -1,6 +1,10 @@
 package com.example.demo.database.dao;
 
 import com.example.demo.database.dao.impl.*;
+import com.example.demo.database.entity.Bus;
+import com.example.demo.database.entity.Plane;
+import com.example.demo.database.entity.Train;
+import com.example.demo.database.entity.Trolley;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,6 +37,13 @@ public class DAOFabric {
 
     public static DAO articleDAO = null;
     public static DAO filesDAO = null;
+
+    public static TransportDAO<Plane> planeTransportDAO = null;
+    public static TransportDAO<Bus> busTransportDAO = null;
+
+    public static TransportDAO<Train> trainTransportDAO = null;
+    public static TransportDAO<Trolley> trolleyTransportDAO = null;
+
 
     public static DAO getUserDAO() {
         if (userDAO == null) {
@@ -100,5 +111,34 @@ public class DAOFabric {
                 // Обработка исключения
             }
         }
+    }
+
+    public static TransportDAO getTrainTransportDAO() {
+        if (trainTransportDAO == null) {
+            trainTransportDAO = new TrainDAOImpl(connection);
+        }
+        return trainTransportDAO;
+    }
+
+    public static TransportDAO getTrolleyTransportDAO() {
+        if (trolleyTransportDAO == null) {
+            trolleyTransportDAO = new TrolleyDAOImpl(connection);
+        }
+        return trolleyTransportDAO;
+    }
+
+    public static TransportDAO getPlaneTransportDAO() {
+        if (planeTransportDAO == null) {
+            planeTransportDAO = new PlaneDAOImpl(connection);
+            System.out.println("DAOFabrik: " + planeTransportDAO);
+        }
+        return planeTransportDAO;
+    }
+
+    public static TransportDAO getBusTransportDAO() {
+        if (busTransportDAO == null) {
+            busTransportDAO = new BusDAOImpl(connection);
+        }
+        return busTransportDAO;
     }
 }

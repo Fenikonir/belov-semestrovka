@@ -16,5 +16,6 @@ public class Names {
     public static final String COOKIES_AUTH_ATTRIBUTE = "rememberMe";
     public static final String IMAGE_DIST = "C:/Users/belov/IdeaProjects/demo/src/main/webapp/resources/images/";
 
-
+    public static final String FORUM_LINK = "/forum";
+    public static final String FORUM_FILE = "forum.ftl";
 }

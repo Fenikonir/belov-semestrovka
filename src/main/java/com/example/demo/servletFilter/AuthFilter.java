@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebFilter(value = {Names.PROFILE_LINK, Names.EDIT_PROFILE_LINK, "/calc", "/vote", "/golos", "/uploaded", "/uploader"})
+@WebFilter(value = {Names.PROFILE_LINK, Names.EDIT_PROFILE_LINK, Names.FORUM_LINK, "/vote", "/golos", "/uploaded", "/uploader"})
 public class AuthFilter extends HttpFilter {
     @Override
     public void doFilter(HttpServletRequest servletRequest, HttpServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

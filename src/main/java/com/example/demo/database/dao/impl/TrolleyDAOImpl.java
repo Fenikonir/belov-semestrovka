@@ -1,6 +1,7 @@
 package com.example.demo.database.dao.impl;
 
 import com.example.demo.database.dao.DAO;
+import com.example.demo.database.dao.TransportDAO;
 import com.example.demo.database.entity.Trolley;
 import com.example.demo.database.entity.City;
 
@@ -8,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrolleyDAOImpl implements DAO<Trolley> {
+public class TrolleyDAOImpl implements DAO<Trolley> , TransportDAO<Trolley> {
     private Connection connection;
 
     public TrolleyDAOImpl(Connection connection) {
@@ -116,5 +117,28 @@ public class TrolleyDAOImpl implements DAO<Trolley> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Trolley> getByCity(int cityId) {
+        List<Trolley> trolleyList = new ArrayList<>();
+        String query = "SELECT * FROM Trolleys WHERE city_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, cityId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Trolley trolley = new Trolley();
+                trolley.setId(resultSet.getInt("id"));
+                trolley.setTrolleyNumber(resultSet.getString("trolley_number"));
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                trolley.setCity(city);
+                trolley.setLastModified(resultSet.getTimestamp("last_modified").toLocalDateTime());
+                trolleyList.add(trolley);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return trolleyList;
     }
 }

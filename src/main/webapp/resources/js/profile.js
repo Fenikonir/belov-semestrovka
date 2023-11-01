@@ -67,6 +67,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const confirmUploadButton = document.getElementById('confirmUploadButton');
     confirmUploadButton.addEventListener('click', function() {
         const avatarFile = document.getElementById('avatarInput').files[0];
+
+        const fileSizeLimit = 5 * 1024 * 1024; // 5MB in bytes
+        if (avatarFile.size > fileSizeLimit) {
+            console.log("File size exceeds the limit.");
+            return;
+        }
+
+        // Check if the file format is an image
+        const allowedFormats = ["image/jpeg", "image/png", "image/gif", "image/jpg"];
+        if (!allowedFormats.includes(avatarFile.type)) {
+            console.log("Invalid file format. Only JPEG, PNG, and GIF images are allowed.");
+            return;
+        }
+
         const formData = new FormData();
         formData.append('avatar', avatarFile);
         fetch('/upload_file', {
