@@ -66,7 +66,7 @@ public class ArticleDAOImpl implements DAO<Article> {
 
     @Override
     public void save(Article entity) {
-        String query = "INSERT INTO articles (author, type, value) VALUES (?, ?, ?)";
+        String query = "INSERT INTO articles (author, type_name, valuer) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, entity.getAuthorId());
             statement.setString(2, entity.getType());
@@ -79,7 +79,7 @@ public class ArticleDAOImpl implements DAO<Article> {
 
     @Override
     public void update(Article entity) {
-        String query = "UPDATE articles SET author = ?, type = ?, value = ? WHERE id = ?";
+        String query = "UPDATE articles SET author = ?, type_name = ?, valuer = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, entity.getAuthorId());
             statement.setString(2, entity.getType());
@@ -108,6 +108,7 @@ public class ArticleDAOImpl implements DAO<Article> {
         article.setAuthorId(resultSet.getInt("author"));
         article.setType(resultSet.getString("type_name"));
         article.setValue(resultSet.getString("valuer"));
+        article.setCreatedDate(resultSet.getTimestamp("created_at").toLocalDateTime());
 
         return article;
     }

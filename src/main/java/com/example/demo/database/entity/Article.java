@@ -1,11 +1,34 @@
 package com.example.demo.database.entity;
 
+import com.example.demo.database.repository.PgRepository;
+
 import java.time.LocalDateTime;
 
 public class Article {
     private int id;
     private int authorId;
     private String type;
+
+    public String getPhoto() {
+        if (photo == null) {
+            return "https://bootdey.com/img/Content/avatar/avatar3.png";
+        }
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    private String photo;
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
 
     private LocalDateTime createdDate;
 

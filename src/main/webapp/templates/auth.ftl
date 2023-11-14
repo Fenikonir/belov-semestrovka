@@ -35,7 +35,7 @@
                     <i class='bx bx-hide eye-icon'></i>
                 </div>
                 <div class="field input-field">
-                    <input type="checkbox" id="remember-me" name=Names.COOKIES_AUTH_ATTRIBUTE>
+                    <input type="checkbox" id="remember-me" name="rememberMe">
                     <label for="remember-me">Запомнить меня</label>
                 </div>
                 <div class="form-link">

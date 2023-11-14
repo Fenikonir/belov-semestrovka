@@ -18,29 +18,6 @@
         </div>
         <div class="profile-info col-md-9">
             <div class="panel">
-                <form>
-                    <textarea placeholder="Whats in your mind today?" rows="2"
-                              class="form-control input-lg p-text-area"></textarea>
-                </form>
-                <footer class="panel-footer">
-                    <button class="btn btn-warning pull-right">Post</button>
-                    <ul class="nav nav-pills">
-                        <li>
-                            <a href="#"><i class="fa fa-map-marker"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-camera"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class=" fa fa-film"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-microphone"></i></a>
-                        </li>
-                    </ul>
-                </footer>
-            </div>
-            <div class="panel">
                 <div class="bio-graph-heading">
                     ${user.getBio().getValue()}
                 </div>

@@ -2,6 +2,7 @@ package com.example.demo.servlets;
 
 public class Names {
     public static final String HOST_LINK = "http://localhost:8080";
+    public static final String HOME_LINK = "/";
     public static final String HOME_FILE = "index.ftl";
     public static final String AUTH_LINK = "/auth";
     public static final String AUTH_FILE = "auth.ftl";
@@ -17,5 +18,11 @@ public class Names {
     public static final String IMAGE_DIST = "C:/Users/belov/IdeaProjects/demo/src/main/webapp/resources/images/";
 
     public static final String FORUM_LINK = "/forum";
+    public static final String EXCEPTION_LINK = "/error";
+    public static final String POST_LINK = "/post";
     public static final String FORUM_FILE = "forum.ftl";
+    public static final String EXCEPTION_FILE = "exception.ftl";
+
+    public static final String VR_LINK = "/vr";
+    public static final String VR_FILE = "360.ftl";
 }

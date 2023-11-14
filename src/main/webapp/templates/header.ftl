@@ -21,7 +21,7 @@
                 <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
                     <#list buttons as button>
                         <li class="u-nav-item">
-                            <a class="u-button-style u-nav-link" href="${host}${button.link}">${button.label}</a>
+                            <a class="u-button-style u-nav-link" href="${button.link}">${button.label}</a>
                         </li>
                     </#list>
                 </ul>
@@ -33,7 +33,7 @@
                         <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
                             <#list buttons as button>
                                 <li class="u-nav-item">
-                                    <a class="u-button-style u-nav-link" href="${host}${button.link}">${button.label}</a>
+                                    <a class="u-button-style u-nav-link" href="${button.link}">${button.label}</a>
                                 </li>
                             </#list>
                         </ul>

@@ -1,9 +1,10 @@
-package com.example.demo.servlets;
+package com.example.demo.servlets.requestHandler;
 
 import com.example.demo.database.dao.DAOFabric;
 import com.example.demo.database.entity.User;
 import com.example.demo.database.entity.UserFiles;
 import com.example.demo.database.repository.PgRepository;
+import com.example.demo.servlets.Names;
 import com.example.demo.singleton.FreemarkerConfigSingleton;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -32,12 +33,20 @@ public class UploadFiles extends HttpServlet {
         Part filePart = request.getPart("avatar");
         String fileName = filePart.getSubmittedFileName();
         String uploadDir = Names.IMAGE_DIST; // Change this to your desired directory
-
+        String userAuthed = (String) request.getSession().getAttribute(Names.SESSION_AUTH_ATTRIBUTE);
+        User user = PgRepository.getUserByEmail(userAuthed);
         // Create the directory if it doesn't exist
         Path directoryPath = Path.of(uploadDir);
         if (!Files.exists(directoryPath)) {
             Files.createDirectories(directoryPath);
         }
+
+        HttpSession session = request.getSession();
+//        String oldFileName = PgRepository.getUserAvatar(user.getId()).getFile_path();
+//        if (oldFileName != null) {
+//            Path oldFilePath = directoryPath.resolve(oldFileName);
+//            Files.deleteIfExists(oldFilePath);
+//        }
 
         // Save the file to the directory
         try (InputStream fileContent = filePart.getInputStream()) {
@@ -48,10 +57,8 @@ public class UploadFiles extends HttpServlet {
             System.out.println("Файл не записан");
         }
 
-        HttpSession session = request.getSession();
         session.setAttribute("filename", fileName);
-        String userAuthed = (String) request.getSession().getAttribute(Names.SESSION_AUTH_ATTRIBUTE);
-        User user = PgRepository.getUserByEmail(userAuthed);
+
         try {
             setImageToBD(fileName, userAuthed, user.getId());
         } catch (SQLException e) {

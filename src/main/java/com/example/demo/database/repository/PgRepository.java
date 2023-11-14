@@ -3,35 +3,39 @@ package com.example.demo.database.repository;
 import com.example.demo.database.PasswordEncryption;
 import com.example.demo.database.dao.DAO;
 import com.example.demo.database.dao.DAOFabric;
-import com.example.demo.database.entity.*;
+import com.example.demo.database.entity.Article;
+import com.example.demo.database.entity.City;
+import com.example.demo.database.entity.User;
+import com.example.demo.database.entity.UserFiles;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.example.demo.database.dao.DAOFabric.connection;
 
 public class PgRepository {
-    private static DAO userDAO = DAOFabric.getUserDAO();
-    private static DAO cityDAO = DAOFabric.getCityDAO();
+    private static final DAO userDAO = DAOFabric.getUserDAO();
+    private static final DAO cityDAO = DAOFabric.getCityDAO();
 
     public static User auth(String email, String password) {
         User user = (User) userDAO.getByParameter("email", email);
-        if (user.getPassword().equals(PasswordEncryption.encryptPassword(password))) {
+        if (user != null && user.getPassword().equals(PasswordEncryption.encryptPassword(password))) {
             System.out.println(user.getUsername() + " " + user.getPassword() + " " + PasswordEncryption.encryptPassword(password));
             System.out.println(user.toString());
             return user;
         }
+        System.out.println(user.getUsername() + " " + user.getPassword() + " " + PasswordEncryption.encryptPassword(password));
         System.out.println("Invalid Password");
         return null;
     }
 
     public static User getUserByEmail(String email) {
-        User user = (User) userDAO.getByParameter("email", email);
-        return user;
+        return (User) userDAO.getByParameter("email", email);
     }
 
     public static boolean haveUser(String email) {
@@ -46,23 +50,23 @@ public class PgRepository {
     }
 
     public static City getCityByName(String name) {
-        City city = (City) cityDAO.getByParameter("city_name", name);
-        return city;
+        return (City) cityDAO.getByParameter("city_name", name);
     }
 
-    public static List<Article> getAllArticlesByUser(int userId) {
+    public static List<Article> getAllPosts() {
         List<Article> articles = new ArrayList<>();
-        String query = "SELECT * FROM articles WHERE author = ?";
+        String query = "SELECT * FROM articles WHERE type_name = 'пост'";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Article article = extractArticleFromResultSet(resultSet);
+                System.out.println(String.format("Text: %s, author: %s, createdDate %s", article.getValue(), article.getAuthorId(), article.getCreatedDate()));
                 articles.add(article);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        articles.sort(Comparator.comparing(Article::getCreatedDate));
         return articles;
     }
 
@@ -72,9 +76,8 @@ public class PgRepository {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Article article = extractArticleFromResultSet(resultSet);
-                return article;
+            if (resultSet.next()) {
+                return extractArticleFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,7 +91,7 @@ public class PgRepository {
         article.setAuthorId(resultSet.getInt("author"));
         article.setType(resultSet.getString("type_name"));
         article.setValue(resultSet.getString("valuer"));
-
+        article.setCreatedDate(resultSet.getTimestamp("created_at").toLocalDateTime());
         return article;
     }
 
@@ -137,5 +140,60 @@ public class PgRepository {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void saveUserBio(Article article) {
+        if (getBioForUser(article.getAuthorId()) == null) {
+            System.out.println("Save new Bio");
+            String query = "INSERT INTO articles (author, type_name, valuer) VALUES (?, ?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, article.getAuthorId());
+                statement.setString(2, "био");
+                statement.setString(3, article.getValue());
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Update current bio");
+            String query = "UPDATE articles SET valuer = ? WHERE author = ? AND type_name = 'био'";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(2, article.getAuthorId());
+                statement.setString(1, article.getValue());
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static List<Article> getPostsByPage(int pageNumber, int pageSize) {
+        List<Article> articles = new ArrayList<>();
+        String query = "SELECT * FROM articles WHERE type_name = 'пост' ORDER BY created_at LIMIT ? OFFSET ?";
+        int offset = (pageNumber - 1) * pageSize;
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, pageSize);
+            statement.setInt(2, offset);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Article article = extractArticleFromResultSet(resultSet);
+                articles.add(article);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return articles;
+    }
+
+    public static int getTotalPosts() {
+        String query = "SELECT COUNT(*) FROM articles WHERE type_name = 'пост'";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

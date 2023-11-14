@@ -1,4 +1,4 @@
-package com.example.demo.servlets;
+package com.example.demo.servlets.requestHandler;
 
 import java.io.*;
 

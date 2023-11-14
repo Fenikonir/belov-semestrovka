@@ -2,7 +2,6 @@ package com.example.demo.servlets.pages;
 
 import com.example.demo.servlets.Button;
 import com.example.demo.servlets.Names;
-import com.example.demo.servlets.VRImages;
 import com.example.demo.singleton.FreemarkerConfigSingleton;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -15,8 +14,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet("")
-public class HomePage extends HttpServlet {
+@WebServlet(Names.VR_LINK)
+public class VRPage extends HttpServlet {
     public void init() {
         FreemarkerConfigSingleton.setServletContext(this.getServletContext());
     }
@@ -25,11 +24,9 @@ public class HomePage extends HttpServlet {
         response.setContentType("text/html");
         String userAuthed = (String) request.getSession().getAttribute(Names.SESSION_AUTH_ATTRIBUTE);
         try {
-            Template template = FreemarkerConfigSingleton.getCfg().getTemplate(Names.HOME_FILE);
+            Template template = FreemarkerConfigSingleton.getCfg().getTemplate(Names.VR_FILE);
             Map<String, Object> dataModel = new HashMap<>();
             dataModel.put("host", Names.HOST_LINK);
-            dataModel.put("vr_image_1", VRImages.getRandomVRImages());
-            dataModel.put("vr_image_2", VRImages.getRandomVRImages());
             if (userAuthed != null) {
                 dataModel.put("buttons", Button.getAuthButton());
             } else {

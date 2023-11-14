@@ -37,9 +37,11 @@ public class UserDAOImpl implements DAO<User> {
     @Override
     public User getByParameter(String param, String value) {
         User user = null;
+        System.out.println(param + " " + value);
         String query = String.format("SELECT * FROM users WHERE %s = ?", param);
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, value);
+            System.out.println(query);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 user = extractUserFromResultSet(resultSet);
@@ -47,7 +49,7 @@ public class UserDAOImpl implements DAO<User> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("UserDaoImpl: " + "getUser" + user.toString());
+        System.out.println(user);
         return user;
     }
 
@@ -69,26 +71,24 @@ public class UserDAOImpl implements DAO<User> {
 
     @Override
     public void save(User entity) {
-        String query = "INSERT INTO users (username, email, password, city_id, creation_date, last_modified, first_name, last_name, birthday, role, mobile_phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO users (username, email, password, city_id, first_name, last_name, birthday, role, mobile_phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, entity.getUsername());
             statement.setString(2, entity.getEmail());
             statement.setString(3, entity.getPassword());
             statement.setInt(4, entity.getCity().getId());
-            statement.setObject(5, entity.getCreationDate());
-            statement.setObject(6, entity.getLastModified());
-            statement.setString(7, entity.getFirstName());
-            statement.setString(8, entity.getLastName());
-            statement.setObject(9, entity.getBirthday());
-            statement.setString(10, entity.getRole());
-            statement.setString(11, entity.getMobilePhone());
-            DAO< Article> articleDAO = DAOFabric.getArticleDAO();
-            articleDAO.save(entity.getBio());
+            statement.setString(5, entity.getFirstName());
+            statement.setString(6, entity.getLastName());
+            statement.setObject(7, entity.getBirthday());
+            statement.setString(8, entity.getRole());
+            statement.setString(9, entity.getMobilePhone());
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 entity.setId(generatedKeys.getInt(1));
             }
+            DAO<Article> articleDAO = DAOFabric.getArticleDAO();
+            articleDAO.save(entity.getBio());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,20 +96,19 @@ public class UserDAOImpl implements DAO<User> {
 
     @Override
     public void update(User entity) {
-        String query = "UPDATE users SET username = ?, password = ?, email = ?, city_id = ?, creation_date = ?, last_modified = ?, first_name = ?, last_name = ?, birthday = ?, role = ?, mobile_phone = ? WHERE id = ?";
+        String query = "UPDATE users SET username = ?, password = ?, email = ?, city_id = ?, creation_date = ?, first_name = ?, last_name = ?, birthday = ?, role = ?, mobile_phone = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, entity.getUsername());
             statement.setString(2, entity.getPassword());
             statement.setString(3, entity.getEmail());
             statement.setInt(4, entity.getCity().getId());
             statement.setObject(5, entity.getCreationDate());
-            statement.setObject(6, entity.getLastModified());
-            statement.setString(7, entity.getFirstName());
-            statement.setString(8, entity.getLastName());
-            statement.setObject(9, entity.getBirthday());
-            statement.setString(10, entity.getRole());
-            statement.setString(11, entity.getMobilePhone());
-            statement.setInt(12, entity.getId());
+            statement.setString(6, entity.getFirstName());
+            statement.setString(7, entity.getLastName());
+            statement.setObject(8, entity.getBirthday());
+            statement.setString(9, entity.getRole());
+            statement.setString(10, entity.getMobilePhone());
+            statement.setInt(11, entity.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

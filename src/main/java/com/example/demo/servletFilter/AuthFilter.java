@@ -1,6 +1,8 @@
 package com.example.demo.servletFilter;
 
 import com.example.demo.database.repository.PgRepository;
+import com.example.demo.service.AuthService;
+import com.example.demo.service.Responser;
 import com.example.demo.servlets.Names;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,25 +18,11 @@ import java.io.IOException;
 public class AuthFilter extends HttpFilter {
     @Override
     public void doFilter(HttpServletRequest servletRequest, HttpServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String userAuthed = (String) servletRequest.getSession().getAttribute(Names.SESSION_AUTH_ATTRIBUTE);
-        if (userAuthed == null) {
-            Cookie[] cookies = servletRequest.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals(Names.COOKIES_AUTH_ATTRIBUTE)) {
-                        System.out.println("AuthFilter" + "Cookies " + cookie.getValue());
-                        if (PgRepository.haveUser(cookie.getValue())) {
-                            servletRequest.getSession().setAttribute(Names.SESSION_AUTH_ATTRIBUTE, cookie.getValue());
-                            userAuthed = cookie.getValue();
-                        }
-                        break;
-                    }
-                }
-            }
-            if (userAuthed == null) {
-                servletResponse.sendRedirect(Names.AUTH_LINK);
-            }
+        Responser responser = AuthService.isUserAuthed(servletRequest);
+        if (responser.code == 200) {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } else {
+            servletResponse.sendRedirect(Names.AUTH_LINK);
         }
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 }

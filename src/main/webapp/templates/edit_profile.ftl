@@ -10,7 +10,7 @@
                     <h1>${user.getUsername()}</h1>
                     <p><a class="__cf_email__" style="color: #0f0f0f">${user.getEmail()}</a></p>
                     <input type="file" id="avatarInput" style="display: none;">
-                    <button id="confirmUploadButton">Подтвердить</button>
+                    <button id="confirmUploadButton" style="color: #0f0f0f; background-color: #1fbbff">Подтвердить</button>
                 </div>
                 <ul class="nav nav-pills nav-stacked">
                     <li><a href="${host}/profile"> <i class="fa fa-user"></i> Профиль</a></li>
@@ -22,11 +22,11 @@
         <div class="profile-info col-md-9">
             <div class="panel">
                 <form>
-                    <textarea placeholder="Whats in your mind today?" rows="2"
+                    <textarea placeholder="Что вы скажете о себе сегодня?" id="postMessage" rows="2"
                               class="form-control input-lg p-text-area"></textarea>
                 </form>
                 <footer class="panel-footer">
-                    <button class="btn btn-warning pull-right">Post</button>
+                    <button class="btn btn-primary" id="send-button" onclick="sendPost()">Опубликовать</button>
                     <ul class="nav nav-pills">
                         <li>
                             <a href="#"><i class="fa fa-map-marker"></i></a>
@@ -88,6 +88,7 @@
 </div>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="../resources/js/profile.js?v=001"></script>
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 </script>

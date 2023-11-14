@@ -29,6 +29,7 @@ public class ProfilePage extends HttpServlet {
         try {
 
             Template template = FreemarkerConfigSingleton.getCfg().getTemplate(Names.PROFILE_FILE);
+            System.out.println((String) request.getSession().getAttribute(Names.SESSION_AUTH_ATTRIBUTE));
             User user = PgRepository.getUserByEmail((String) request.getSession().getAttribute(Names.SESSION_AUTH_ATTRIBUTE));
             Map<String, Object> dataModel = new HashMap<>();
             System.out.println("ProfilePage Avatar: " + user.getAvatar());
