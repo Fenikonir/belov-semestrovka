@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="../resources/css/nicepage.css" media="screen">
     <link rel="stylesheet" href="../resources/css/Контакты.css" media="screen">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script class="u-script" type="text/javascript" src="../resources/js/jquery.js" defer=""></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../resources/js/forum.js?v=002"></script>
     <script class="u-script" type="text/javascript" src="../resources/js/nicepage.js" defer=""></script>
@@ -27,13 +27,21 @@
                     </div>
                     <div class="card-body">
                         <#list posts as post>
-                            <div class="d-flex flex-row justify-content-start mb-4">
-                                <img src="${post.getPhoto()}"
-                                     alt="avatar 1" style="width: 45px; height: 100%;">
-                                <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
-                                    <p class="small mb-0">${post.getValue()}</p>
+                            <#if post.getAmAuthor()>
+                                <div class="d-flex flex-row justify-content-end mb-4">
+                                    <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                        <p class="small mb-0">${post.getValue()}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            <#else>
+                                <div class="d-flex flex-row justify-content-start mb-4">
+                                    <img src="${post.getPhoto()}"
+                                         alt="avatar 1" style="width: 45px; height: 100%;">
+                                    <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                        <p class="small mb-0">${post.getValue()}</p>
+                                    </div>
+                                </div>
+                            </#if>
                         </#list>
                         <div id="message-list">
                             <!-- Existing messages will be added here -->

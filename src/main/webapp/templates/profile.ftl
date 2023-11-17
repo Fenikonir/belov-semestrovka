@@ -66,8 +66,8 @@
                                     </div>
                                     <div class="bio-desk">
                                         <h4 class="red">Автобусов</h4>
-                                        <p>Started : 15 July</p>
-                                        <p>Deadline : 15 August</p>
+                                        <p>Ср Цена : ${buses_f}</p>
+                                        <p>Ср Число остановок : ${buses_s}</p>
                                     </div>
                                 </a>
                             </div>
@@ -88,8 +88,8 @@
                                     </div>
                                     <div class="bio-desk">
                                         <h4 class="terques">Самолетов</h4>
-                                        <p>Started : 15 July</p>
-                                        <p>Deadline : 15 August</p>
+                                        <p>Ср Цена : ${planes_f}</p>
+                                        <p>Ср Число остановок : ${planes_s}</p>
                                     </div>
                                 </a>
                             </div>
@@ -110,8 +110,8 @@
                                     </div>
                                     <div class="bio-desk">
                                         <h4 class="green">Троллейбусов</h4>
-                                        <p>Started : 15 July</p>
-                                        <p>Deadline : 15 August</p>
+                                        <p>Ср Цена : ${trolleys_f}</p>
+                                        <p>Ср Число остановок : ${trolleys_s}</p>
                                     </div>
                                 </a>
                             </div>
@@ -132,8 +132,8 @@
                                     </div>
                                     <div class="bio-desk">
                                         <h4 class="purple">Поездов</h4>
-                                        <p>Started : 15 July</p>
-                                        <p>Deadline : 15 August</p>
+                                        <p>Ср Цена : ${trains_f}</p>
+                                        <p>Ср Число остановок : ${trains_s}</p>
                                     </div>
                                 </a>
                             </div>
